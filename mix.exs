@@ -21,6 +21,7 @@ defmodule BinanceEx.MixProject do
 
   defp deps do
     [
+      {:decimal, "~> 1.0"},
       {:httpoison, "~> 1.5"},
       {:jason, "~> 1.1"},
     ]

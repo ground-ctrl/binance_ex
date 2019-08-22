@@ -14,7 +14,7 @@ defmodule Binance.SymbolPrice do
   def new(response) do
     %Binance.SymbolPrice{
       symbol: response["symbol"],
-      price: response["price"] |> String.to_float()
+      price: response["price"] |> Decimal.new()
     }
   end
 end

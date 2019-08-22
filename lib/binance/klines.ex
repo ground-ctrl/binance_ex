@@ -38,16 +38,16 @@ defmodule Binance.KLines do
   def new(payload) do
     %Binance.KLines{
       open_time: Enum.at(payload, 0),
-      open: Enum.at(payload, 1) |> String.to_float(),
-      low: Enum.at(payload, 2) |> String.to_float(),
-      high: Enum.at(payload, 3) |> String.to_float(),
-      close: Enum.at(payload, 4) |> String.to_float(),
-      volume: Enum.at(payload, 5) |> String.to_float(),
+      open: Enum.at(payload, 1) |> Decimal.new(),
+      low: Enum.at(payload, 2) |> Decimal.new(),
+      high: Enum.at(payload, 3) |> Decimal.new(),
+      close: Enum.at(payload, 4) |> Decimal.new(),
+      volume: Enum.at(payload, 5) |> Decimal.new(),
       close_time: Enum.at(payload, 6),
-      quote_asset_volume: Enum.at(payload, 7) |> String.to_float(),
+      quote_asset_volume: Enum.at(payload, 7) |> Decimal.new(),
       num_trades: Enum.at(payload, 8),
-      taker_buy_base_asset_volume: Enum.at(payload, 9) |> String.to_float(),
-      taker_buy_quote_asset_volume: Enum.at(payload, 10) |> String.to_float()
+      taker_buy_base_asset_volume: Enum.at(payload, 9) |> Decimal.new(),
+      taker_buy_quote_asset_volume: Enum.at(payload, 10) |> Decimal.new()
     }
   end
 end

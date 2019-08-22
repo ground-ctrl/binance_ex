@@ -13,8 +13,8 @@ defmodule Binance.Balance do
   def new(payload) do
     %Binance.Balance{
       asset: payload["asset"],
-      free: payload["free"] |> String.to_float(),
-      locked: payload["locked"] |> String.to_float()
+      free: payload["free"] |> Decimal.new(),
+      locked: payload["locked"] |> Decimal.new()
     }
   end
 end
