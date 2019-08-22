@@ -43,7 +43,7 @@ defmodule Binance do
   Current account information
   """
 
-  def account_information(receive_window, timestamp) do
+  def account(receive_window, timestamp) do
     api_key = Application.get_env(:binance_api, :api_key)
     api_secret = Application.get_env(:binance_api, :api_secret)
 
@@ -53,7 +53,7 @@ defmodule Binance do
     end
   end
 
-  def account_information() do
+  def account() do
     ts = DateTime.utc_now() |> DateTime.to_unix(:millisecond)
     account_information(5000, ts)
   end
@@ -75,8 +75,8 @@ defmodule Binance do
   Klines are uniquely defined by their open time.
   """
 
-  def ohlc(symbol, interval, start_time, end_time, limit) do
-    params = ohlc_params(symbol, interval, limit, start_time, end_time)
+  def klines(symbol, interval, start_time \\ nil , end_time \\ nil, limit \\ 500) do
+    params = kline_params(symbol, interval, limit, start_time, end_time)
     api_key = Application.get_env(:binance_api, :api_key)
 
     case HTTPClient.get("/api/v1/klines", params, api_key) do
@@ -85,19 +85,7 @@ defmodule Binance do
     end
   end
 
-  def ohlc(symbol) do
-    ohlc(symbol, "1m", nil, nil, 1000)
-  end
-
-  def ohlc(symbol, start_time) do
-    ohlc(symbol, "1m", start_time, nil, 1000)
-  end
-
-  def ohlc(symbol, start_time, interval) do
-    ohlc(symbol, interval, start_time, nil, 1000)
-  end
-
-  defp ohlc_params(symbol, interval, limit, start_time, end_time)
+  defp klines_params(symbol, interval, limit, start_time, end_time)
        when is_nil(start_time) and
               is_nil(end_time) do
     %{
@@ -107,7 +95,7 @@ defmodule Binance do
     }
   end
 
-  defp ohlc_params(symbol, interval, limit, start_time, end_time)
+  defp klines_params(symbol, interval, limit, start_time, end_time)
        when is_nil(end_time) do
     %{
       symbol: symbol,
@@ -117,7 +105,7 @@ defmodule Binance do
     }
   end
 
-  defp ohlc_params(symbol, interval, limit, start_time, end_time) do
+  defp klines_params(symbol, interval, limit, start_time, end_time) do
     %{
       symbol: symbol,
       interval: interval,
